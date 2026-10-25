@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Testimonial Slider</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Swiper CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+  />
+
+  <style>
+    /* 3D testimonial effect */
+    .testimonial-swiper {
+      padding: 80px 0;
+    }
+
+    .testimonial-swiper .swiper-slide {
+      transform: scale(0.85);
+      opacity: 0.35;
+      filter: blur(1px);
+      transition: all 0.4s ease;
+    }
+
+    .testimonial-swiper .swiper-slide-active {
+      transform: scale(1.2);
+      opacity: 1;
+      filter: blur(0);
+      z-index: 10;
+    }
+
+    .testimonial-swiper .swiper-slide-prev {
+      transform: rotateY(18deg) scale(0.9);
+    }
+
+    .testimonial-swiper .swiper-slide-next {
+      transform: rotateY(-18deg) scale(0.9);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <p class="text-blue-600 uppercase tracking-widest text-sm font-bold mb-3">
+        Testimonials
+      </p>
+
+      <h2 class="text-4xl font-bold mb-14">
+        What Our Clients Say
+      </h2>
+
+      <!-- Swiper -->
+      <div class="swiper testimonial-swiper">
+        <div class="swiper-wrapper">
+
+          <!-- Slide 1 -->
+          <div class="swiper-slide">
+            <div class="bg-white p-10 rounded-xl shadow-xl relative">
+              <span class="absolute top-4 right-6 text-8xl text-gray-200 font-serif">”</span>
+
+              <img
+                src="https://i.pravatar.cc/100?img=1"
+                class="w-16 h-16 rounded-full mx-auto mb-4 ring-2 ring-blue-500"
+              />
+
+              <p class="text-gray-700 text-lg text-center mb-6 leading-relaxed">
+                We have been using Minimax Fire Extinguishers for many years.
+                Their products are reliable, durable, and trusted.
+              </p>
+
+              <div class="text-center">
+                <p class="font-bold text-gray-900">N M Vijay Singh</p>
+                <p class="text-sm text-gray-500">Security Manager, ITC Limited</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="swiper-slide">
+            <div class="bg-white p-10 rounded-xl shadow-xl relative">
+              <span class="absolute top-4 right-6 text-8xl text-gray-200 font-serif">”</span>
+
+              <img
+                src="https://i.pravatar.cc/100?img=2"
+                class="w-16 h-16 rounded-full mx-auto mb-4 ring-2 ring-blue-500"
+              />
+
+              <p class="text-gray-700 text-lg text-center mb-6 leading-relaxed">
+                Minimax delivered exceptional fire safety solutions for our
+                manufacturing plants across India.
+              </p>
+
+              <div class="text-center">
+                <p class="font-bold text-gray-900">Rajesh Kumar</p>
+                <p class="text-sm text-gray-500">Plant Manager, Tata Steel</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="swiper-slide">
+            <div class="bg-white p-10 rounded-xl shadow-xl relative">
+              <span class="absolute top-4 right-6 text-8xl text-gray-200 font-serif">”</span>
+
+              <img
+                src="https://i.pravatar.cc/100?img=3"
+                class="w-16 h-16 rounded-full mx-auto mb-4 ring-2 ring-blue-500"
+              />
+
+              <p class="text-gray-700 text-lg text-center mb-6 leading-relaxed">
+                The Minimax team provides quick service and unmatched technical
+                expertise in fire protection systems.
+              </p>
+
+              <div class="text-center">
+                <p class="font-bold text-gray-900">Amit Sharma</p>
+                <p class="text-sm text-gray-500">Facilities Head, Aditya Birla Group</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-center gap-4 mt-10">
+          <button id="prev" class="p-3 rounded-full bg-white shadow hover:bg-gray-100">
+            ←
+          </button>
+          <button id="next" class="p-3 rounded-full bg-white shadow hover:bg-gray-100">
+            →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <script>
+    new Swiper('.testimonial-swiper', {
+      loop: true,
+      centeredSlides: true,
+      grabCursor: true,
+      speed: 1400,
+      spaceBetween: 40,
+
+      slidesPerView: 1,
+
+      breakpoints: {
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+
+      navigation: {
+        nextEl: '#next',
+        prevEl: '#prev',
+      },
+
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smooth Animated Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+
+ main {
+      position: relative !important; /* to contain absolute slide-content panels */
+      overflow: hidden;
+    }
+
+    /* ----------------- Sidebar submenu ----------------- */
+    .submenu {
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    /* ----------------- Right content panels ----------------- */
+    .slide-content {
+      opacity: 0;
+      transform: translateY(15px);
+      position: absolute;
+      inset: 0;
+      padding: 2rem; /* match main padding */
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none; /* prevent clicks when hidden */
+    }
+    .slide-content.show {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative; /* restore normal flow */
+      pointer-events: auto;
+    }
+
+   
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="flex flex-col md:flex-row h-screen">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside id="sidebar" class="w-full md:w-72 lg:w-80 bg-white shadow-lg overflow-y-auto">
+    <div class="p-4 font-bold text-xl border-b">Resources</div>
+
+    <nav class="p-4 space-y-3">
+
+      <!-- GROUP 1 -->
+      <div>
+        <button class="menu-btn flex justify-between w-full py-2 text-left font-semibold">
+          Extinguisher
+          <span class="arrow transition-transform duration-300"><i class="fa-solid fa-angle-down"></i></span>
+        </button>
+        <ul class="submenu max-h-0 ml-4 space-y-2">
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1a">Minimax Portfolio Catalogue 2023</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1b">Minimax FE Range Catalogue</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax Grenoz Clean Agent FE</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax D Class FE</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax F Class FE</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax CO2 4.5Kg Aluminium FE</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax CO2 2Kg Aluminium Flyer</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax Plus Fire Extinguisher</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Firephant Fire Extinguisher</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax Foam Based Watermist FE</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-1c">Minimax CAFS Backpack 9 Ltr</button></li>
+        </ul>
+      </div>
+
+      <!-- GROUP 2 (Default Open) -->
+      <div>
+        <button class="menu-btn  border-b-gray-600 flex justify-between w-full py-2 text-left font-semibold">
+          Hydrants
+          <span class="arrow transition-transform duration-300 rotate-180"><i class="fa-solid fa-angle-down"></i></span>
+        </button>
+        <ul class="submenu ml-4 space-y-2" style="max-height: 200px;">
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-2a">Minimax Hydrant Accessories</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-2b">Gilpro Flexible Hose</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-2b">Fire Extinguisher Enclosures</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-2b">Minimax Fire Blanket</button></li>
+        </ul>
+      </div>
+
+      <!-- GROUP 3 -->
+      <div>
+        <button class="menu-btn flex justify-between w-full py-2 text-left font-semibold">
+          Fire Suppression System
+          <span class="arrow transition-transform duration-300"><i class="fa-solid fa-angle-down"></i></span>
+        </button>
+        <ul class="submenu max-h-0 ml-4 space-y-2">
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-3a">Minimax Firespot Systems</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-3b">GILPRO instaproteKt Optima</button></li>
+          <li><button class="menu-item block w-full text-left py-2 rounded-lg" data-content="content-3b">GILPRO instaproteKt PLC</button></li>
+        </ul>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="flex-1 p-8 overflow-y-auto relative">
+
+
+    <!-- Dynamic Contents -->
+    <div id="content-1a" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 1A</h1>
+      <p>This is content for item 1A.</p>
+    </div>
+
+    <div id="content-1b" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 1B</h1>
+      <p>This is content for item 1B.</p>
+    </div>
+
+    <div id="content-1c" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 1C</h1>
+      <p>This is content for item 1C.</p>
+    </div>
+
+    <div id="content-2a" class="slide-content show">
+      <h1 class="text-2xl font-bold mb-4">Content 2A</h1>
+      <p>This is content for item 2A.</p>
+    </div>
+
+    <div id="content-2b" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 2B</h1>
+      <p>This is content for item 2B.</p>
+    </div>
+
+    <div id="content-3a" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 3A</h1>
+      <p>This is content for item 3A.</p>
+    </div>
+
+    <div id="content-3b" class="slide-content">
+      <h1 class="text-2xl font-bold mb-4">Content 3B</h1>
+      <p>This is content for item 3B.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const accordionButtons = document.querySelectorAll('.menu-btn');
+  const menuItems = document.querySelectorAll('.menu-item');
+  const contentPanels = document.querySelectorAll('.slide-content');
+
+  /* ========== ACCORDION LOGIC ========== */
+  accordionButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const submenu = btn.nextElementSibling;
+      const arrow = btn.querySelector('.arrow');
+
+      accordionButtons.forEach(other => {
+        if (other !== btn) {
+          const otherMenu = other.nextElementSibling;
+          const otherArrow = other.querySelector('.arrow');
+          otherMenu.style.maxHeight = "0px";
+          otherArrow.style.transform = "rotate(0deg)";
+        }
+      });
+
+      if (!submenu.style.maxHeight || submenu.style.maxHeight === "0px") {
+        submenu.style.maxHeight = submenu.scrollHeight + "px";
+        arrow.style.transform = "rotate(180deg)";
+      } else {
+        submenu.style.maxHeight = "0px";
+        arrow.style.transform = "rotate(0deg)";
+      }
+    });
+  });
+
+  /* ========== CONTENT SWITCHING ========== */
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetId = item.dataset.content;
+      const targetPanel = document.getElementById(targetId);
+
+      // Mobile only: close accordion
+      if (window.innerWidth < 768) {
+        accordionButtons.forEach(btn => {
+          const menu = btn.nextElementSibling;
+          const arrow = btn.querySelector('.arrow');
+          menu.style.maxHeight = "0px";
+          arrow.style.transform = "rotate(0deg)";
+        });
+      }
+
+      // Hide all other panels
+      contentPanels.forEach(panel => {
+        if (panel !== targetPanel) panel.classList.remove("show");
+      });
+
+      // Show selected panel with smooth transition
+      requestAnimationFrame(() => {
+        targetPanel.classList.add("show");
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
