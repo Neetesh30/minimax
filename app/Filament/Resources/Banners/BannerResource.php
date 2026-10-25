@@ -13,7 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Symfony\Component\Routing\Route;
+use Illuminate\Database\Eloquent\Builder;
 
 class BannerResource extends Resource
 {
@@ -22,6 +22,11 @@ class BannerResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
     protected static ?string $recordTitleAttribute = 'PageBanner';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('route_name', '!=', 'home');
+    }
 
     public static function form(Schema $schema): Schema
     {

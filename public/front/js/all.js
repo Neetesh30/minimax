@@ -126,7 +126,7 @@ menuLinks.forEach(link => {
     // Hero Slider
     new Swiper('.custom-hero-slider', {
         direction: 'horizontal',
-        loop: true,
+        loop: document.querySelectorAll('.custom-hero-slider .swiper-slide').length > 1,
         parallax: true,
         effect: "cube",
         cubeEffect: {
