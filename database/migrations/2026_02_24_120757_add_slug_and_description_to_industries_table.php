@@ -11,13 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('industries', function (Blueprint $table) {
-             $table->string('slug')->unique();
-             $table->longText('description')->nullable();
-            $table->text('intro')->nullable();
-            $table->json('key_risks')->nullable();
-            $table->json('solutions')->nullable();
-            $table->text('why_choose_us')->nullable();
+        // Existing installations may already contain some of these columns.
+        $existingColumns = Schema::getColumnListing('industries');
+
+        Schema::table('industries', function (Blueprint $table) use ($existingColumns) {
+            if (! in_array('slug', $existingColumns, true)) {
+                $table->string('slug')->unique();
+            }
+            if (! in_array('description', $existingColumns, true)) {
+                $table->longText('description')->nullable();
+            }
+            if (! in_array('intro', $existingColumns, true)) {
+                $table->text('intro')->nullable();
+            }
+            if (! in_array('key_risks', $existingColumns, true)) {
+                $table->json('key_risks')->nullable();
+            }
+            if (! in_array('solutions', $existingColumns, true)) {
+                $table->json('solutions')->nullable();
+            }
+            if (! in_array('why_choose_us', $existingColumns, true)) {
+                $table->text('why_choose_us')->nullable();
+            }
         });
     }
 

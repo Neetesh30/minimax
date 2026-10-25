@@ -15,7 +15,7 @@ class BannersTable
     {
         return $table
             ->columns([
-               TextColumn::make('route_name'),
+               TextColumn::make('route_name')->label('Page')->searchable(),
                ImageColumn::make('image')  
                             ->disk('public')
                             ->visibility('public'),

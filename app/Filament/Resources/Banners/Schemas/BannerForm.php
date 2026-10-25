@@ -25,11 +25,11 @@ class BannerForm
                 ->image()
                 ->directory('banners')
                 ->disk('public')
-                ->preserveFilenames()
                 ->openable()
                 ->downloadable()
                 ->visibility('public')
                 ->required(),
+
             ]);
     }
 
@@ -38,6 +38,7 @@ class BannerForm
         return collect(Route::getRoutes())
             ->filter(fn ($route) =>
                 $route->getName() &&
+                $route->getName() !== 'home' &&
                 ! str_starts_with($route->getName(), 'filament.')
             )
             ->mapWithKeys(fn ($route) => [

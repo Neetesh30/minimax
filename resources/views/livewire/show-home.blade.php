@@ -2,74 +2,26 @@
     <div class="custom-hero-slider mt-12 w-full sm:h-80 md:h-96  lg:h-[640px] xl:h-[640px]">
         <div class="swiper-wrapper">
             
-            
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 1.jpg.jpeg') }}"
-                alt="Slide 1"
-                class="w-full" />
-        </div>
-            
-          
-
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 2.jpg.jpeg') }}"
-                alt="Slide 2"
-                class="w-full">
-        </div>
-
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 3.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        
-         <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 4.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 5.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 6.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 7.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 8.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-        
-        
-         <div class="swiper-slide relative overflow-hidden">
-            <img
-                src="{{ asset('front/images/Banner 9.jpg.jpeg') }}"
-                alt="Slide 3"
-                class="w-full" />
-        </div>
-
+        @forelse ($homeBanners as $banner)
+            <div
+                class="swiper-slide relative overflow-hidden"
+                wire:key="home-banner-{{ $banner->id }}"
+            >
+                <img
+                    src="{{ asset('storage/' . $banner->image) }}"
+                    alt="Minimax home banner {{ $loop->iteration }}"
+                    class="w-full"
+                >
+            </div>
+        @empty
+            <div class="swiper-slide relative overflow-hidden" wire:key="home-banner-fallback">
+                <img
+                    src="{{ asset('front/images/Banner 1.jpg.jpeg') }}"
+                    alt="Minimax fire safety products"
+                    class="w-full"
+                >
+            </div>
+        @endforelse
 
             
             <!--<div class="swiper-slide slide-bg slide-7 h-full relative">-->
