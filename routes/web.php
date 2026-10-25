@@ -23,6 +23,11 @@ use App\Models\Product;
 use App\Livewire\IndustryDetails;
 use Stephenjude\FilamentBlog\Models\Post;
 use App\Models\SeoSetting;
+use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Blade;
 use Z3d0X\FilamentFabricator\Http\Controllers\PageController;
 
 
@@ -36,6 +41,54 @@ use Z3d0X\FilamentFabricator\Http\Controllers\PageController;
 Route::get('/',ShowHome::class)->name('home');
 Route::get('/about',ShowAbout::class)->name('about');
 Route::get('/news', News::class)->name('news');
+
+Route::get('/admin/storage-link', function (Request $request) {
+    if (! $request->user('web')) {
+        return redirect()->route('filament.admin.auth.login');
+    }
+
+    abort_unless($request->user('web') instanceof User
+        && $request->user('web')->canAccessPanel(Filament::getPanel('admin')), 403);
+
+    return response(Blade::render(<<<'BLADE'
+        <!DOCTYPE html>
+        <html lang="en">
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Storage link</title></head>
+        <body>
+            <h1>Create storage link</h1>
+            <p>Make uploaded public images available on the website.</p>
+            <form method="POST" action="{{ route('admin.storage-link.store') }}">
+                @csrf
+                <button type="submit">Create storage link</button>
+            </form>
+        </body>
+        </html>
+        BLADE));
+})->name('admin.storage-link');
+
+Route::post('/admin/storage-link', function (Request $request) {
+    if (! $request->user('web')) {
+        return redirect()->route('filament.admin.auth.login');
+    }
+
+    abort_unless($request->user('web') instanceof User
+        && $request->user('web')->canAccessPanel(Filament::getPanel('admin')), 403);
+
+    if (is_link(public_path('storage'))) {
+        return response()->json(['message' => 'The public storage link already exists.']);
+    }
+
+    if (file_exists(public_path('storage'))) {
+        return response()->json(['message' => 'public/storage already exists and is not a symbolic link. No changes made.'], 409);
+    }
+
+    $exitCode = Artisan::call('storage:link');
+    $success = $exitCode === 0 && is_link(public_path('storage'));
+
+    return response()->json([
+        'message' => $success ? 'Storage link created successfully.' : 'Storage link could not be created. Check the server logs and filesystem permissions.',
+    ], $success ? 200 : 500);
+})->middleware('throttle:5,1')->name('admin.storage-link.store');
 
 Route::get('/blog',ShowBlog::class)->name('blog');
 Route::get('/blog/{slug}', BlogDetails::class)->name('blog.details');
