@@ -4,6 +4,7 @@ use App\Livewire\ShowAbout;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\ShowHome;
 use App\Livewire\ShowBlog;
+use App\Livewire\News;
 use App\Livewire\BlogDetails;
 use App\Livewire\Customer\Register;
 use App\Livewire\CustomerRegister;
@@ -34,6 +35,7 @@ use Z3d0X\FilamentFabricator\Http\Controllers\PageController;
 
 Route::get('/',ShowHome::class)->name('home');
 Route::get('/about',ShowAbout::class)->name('about');
+Route::get('/news', News::class)->name('news');
 
 Route::get('/blog',ShowBlog::class)->name('blog');
 Route::get('/blog/{slug}', BlogDetails::class)->name('blog.details');
