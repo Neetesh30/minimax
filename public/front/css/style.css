@@ -207,7 +207,8 @@
         /* 1. Define a Parent Container (The hover area) */
 .profile-menu-container {
     position: relative;
-    display: inline-block; /* Makes the hover area exactly the size of its content (the trigger) */
+    /* display: inline-block; Makes the hover area exactly the size of its content (the trigger) */
+    display: none !important;
 }
 
 /* 2. Initial Hidden State */

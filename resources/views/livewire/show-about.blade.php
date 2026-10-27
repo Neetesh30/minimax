@@ -2,7 +2,7 @@
 
 
  <div class="mt-12 relative overflow-hidden" oncontextmenu="event.preventDefault(); return false;">
-     <video src="{{ asset('front/video/Gunnebo-video.mp4') }}" class="block w-full pointer-events-none select-none" autoplay muted loop playsinline controlslist="nodownload" disablepictureinpicture draggable="false" aria-hidden="true" tabindex="-1"></video>
+     <video src="{{ asset('front/video/minimax-Video.mp4') }}" class="block w-full pointer-events-none select-none" autoplay muted loop playsinline controlslist="nodownload" disablepictureinpicture draggable="false" aria-hidden="true" tabindex="-1"></video>
      <div class="absolute inset-0" aria-hidden="true"></div>
   </div>
 

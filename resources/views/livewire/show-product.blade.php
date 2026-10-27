@@ -169,7 +169,7 @@
                         </li>
                         <li id="contentTab"
                           class="flex-1 tab text-slate-600 font-medium hover:text-slate-700 text-[15px] text-center py-2.5 px-5 border-b-2 border-slate-700 cursor-pointer transition-all">
-                          Faq
+                          FAQ
                         </li>
                       
                       </ul>
