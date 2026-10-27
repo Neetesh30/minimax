@@ -1,0 +1,16 @@
+<?php
+
+protected static ?string $navigationLabel = 'News';
+
+protected static ?string $modelLabel = 'News article';
+
+protected static ?string $pluralModelLabel = 'News articles';
+
+protected static ?string $slug = 'news';
+
+protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+protected static string|\BackedEnum|null $navigationIcon =
+    \Filament\Support\Icons\Heroicon::OutlinedNewspaper;
+
+protected static ?string $recordTitleAttribute = 'title';
