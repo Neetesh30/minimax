@@ -41,6 +41,9 @@ use Z3d0X\FilamentFabricator\Http\Controllers\PageController;
 Route::get('/',ShowHome::class)->name('home');
 Route::get('/about',ShowAbout::class)->name('about');
 Route::get('/news', News::class)->name('news');
+Route::get('/news/{slug}', \App\Livewire\NewsDetails::class)->name('news.details');
+Route::get('/admin/news-preview/{slug}', \App\Livewire\NewsPreview::class)
+    ->middleware('auth')->name('news.preview');
 
 Route::get('/admin/storage-link', function (Request $request) {
     if (! $request->user('web')) {
