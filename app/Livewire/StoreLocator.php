@@ -18,7 +18,7 @@ class StoreLocator extends Component
     public function mount()
     {
         $this->stores = Store::where('is_active',1)->get()->toArray();
-        $this->dispatch('updateMap', stores: $this->stores);
+        $this->dispatch('updateMap', stores: $this->stores, fitIndia: true);
     }
 
      public function search()

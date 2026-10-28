@@ -29,8 +29,11 @@
             @endforelse
         </div>
 
-        <div class="md:w-3/5 w-full h-64 md:h-full">
-            <div id="map" wire:ignore class="h-full" style="max-width:90vw; z-index: 10; margin:0 auto; min-height:700px"></div>
+        <div class="md:w-3/5 w-full h-96 md:h-full relative shrink-0 min-h-0">
+            <div id="map" wire:ignore class="h-full w-full" style="z-index: 10;"></div>
+            <p id="map-boundary-error" role="status" hidden class="absolute bottom-4 left-4 right-4 bg-white p-3 rounded shadow" style="z-index: 11">
+                The India boundary could not be loaded. Please refresh the page.
+            </p>
         </div>
     </div>
 
@@ -40,6 +43,14 @@
     let storeIcon, activeStoreIcon;
     let activeMarker = null;
     let storeMarkers = {};
+    const indiaExtent = [[6.5, 68.1], [37.1, 97.5]];
+
+    function fitIndiaMap() {
+        map.setMinZoom(0);
+        map.invalidateSize({ pan: false });
+        map.fitBounds(indiaExtent, { padding: [24, 24], animate: false });
+        map.setMinZoom(map.getZoom());
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         // 1. Initialize Icons
@@ -58,17 +69,41 @@
         });
 
         // 2. Initialize Map
-        const indiaBounds = L.latLngBounds([6.554607, 68.111378], [35.674545, 97.395561]);
+        // Include the full northern extent and island territories.
+        const indiaBounds = L.latLngBounds(indiaExtent);
         map = L.map('map', {
-            maxBounds: indiaBounds,
+            maxBounds: indiaBounds.pad(0.15),
             maxBoundsViscosity: 1.0,
-            minZoom: 5,
+            minZoom: 0,
+            zoomSnap: 0.1,
             maxZoom: 18,
-        }).setView([22.9734, 78.6569], 5);
+        });
+        fitIndiaMap();
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
+        // Recalculate against the actual visible map size, including on mobile.
+        const mapResizeObserver = new ResizeObserver(() => fitIndiaMap());
+        mapResizeObserver.observe(document.getElementById('map'));
+        map.on('unload', () => mapResizeObserver.disconnect());
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
+        fetch('{{ asset('front/maps/india-boundary.geojson') }}')
+            .then(response => {
+                if (!response.ok) throw new Error('Boundary request failed');
+                return response.json();
+            })
+            .then(boundary => {
+                L.geoJSON(boundary, {
+                    style: { color: '#334155', weight: 2, opacity: 0.95 },
+                    interactive: false,
+                    attribution: 'Boundary: <a href="https://surveyofindia.gov.in/pages/outline-maps-of-india" target="_blank" rel="noopener">Survey of India</a>'
+                }).addTo(map);
+            })
+            .catch(() => {
+                document.getElementById('map-boundary-error').hidden = false;
+            });
 
         markerCluster = L.markerClusterGroup({
             showCoverageOnHover: false,
@@ -115,7 +150,9 @@
     // Handle Livewire updates with a smooth "Fly" to results
     Livewire.on('updateMap', e => {
         renderStoreMarkers(e.stores);
-        if (e.stores.length > 0) {
+        if (e.fitIndia) {
+            fitIndiaMap();
+        } else if (e.stores.length > 0) {
             const bounds = markerCluster.getBounds();
             map.flyToBounds(bounds, { padding: [50, 50], duration: 1.5 });
         }
