@@ -114,7 +114,7 @@ Route::get('/customer/register', Register::class)->name('customer.register');
 
 Route::get('/verify-extinguisher', VerifyExtinguisher::class)->name('verify.extinguisher');
 
-Route::get('/store-locator', StoreLocator::class)->name('storelocator');
+Route::get('/contact', StoreLocator::class)->name('storelocator');
 
 Route::get('/fe-inspection', FeInspection::class)->name('feInspection');
 

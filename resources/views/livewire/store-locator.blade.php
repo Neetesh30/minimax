@@ -72,6 +72,7 @@
         // Include the full northern extent and island territories.
         const indiaBounds = L.latLngBounds(indiaExtent);
         map = L.map('map', {
+            attributionControl: false,
             maxBounds: indiaBounds.pad(0.15),
             maxBoundsViscosity: 1.0,
             minZoom: 0,
@@ -85,25 +86,22 @@
         mapResizeObserver.observe(document.getElementById('map'));
         map.on('unload', () => mapResizeObserver.disconnect());
 
+        // This data arrives with the HTML, so the outline is drawn before tiles load.
+        const indiaBoundary = @json($indiaBoundary);
+        if (indiaBoundary) {
+            L.geoJSON(indiaBoundary, {
+                style: { color: '#334155', weight: 2, opacity: 0.95 },
+                interactive: false,
+                attribution: 'Boundary: <a href="https://surveyofindia.gov.in/pages/outline-maps-of-india" target="_blank" rel="noopener">Survey of India</a>'
+            }).addTo(map);
+        } else {
+            document.getElementById('map-boundary-error').hidden = false;
+        }
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
-        fetch('{{ asset('front/maps/india-boundary.geojson') }}')
-            .then(response => {
-                if (!response.ok) throw new Error('Boundary request failed');
-                return response.json();
-            })
-            .then(boundary => {
-                L.geoJSON(boundary, {
-                    style: { color: '#334155', weight: 2, opacity: 0.95 },
-                    interactive: false,
-                    attribution: 'Boundary: <a href="https://surveyofindia.gov.in/pages/outline-maps-of-india" target="_blank" rel="noopener">Survey of India</a>'
-                }).addTo(map);
-            })
-            .catch(() => {
-                document.getElementById('map-boundary-error').hidden = false;
-            });
 
         markerCluster = L.markerClusterGroup({
             showCoverageOnHover: false,

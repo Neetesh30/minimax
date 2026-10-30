@@ -52,6 +52,13 @@ class StoreLocator extends Component
     
     public function render()
     {
-        return view('livewire.store-locator');
+        // Include the outline in the initial HTML instead of fetching it after
+        // the basemap is already visible. Keep it out of Livewire's public state.
+        $boundaryPath = public_path('front/maps/india-boundary.geojson');
+        $indiaBoundary = is_file($boundaryPath)
+            ? json_decode(file_get_contents($boundaryPath), true)
+            : null;
+
+        return view('livewire.store-locator', compact('indiaBoundary'));
     }
 }
